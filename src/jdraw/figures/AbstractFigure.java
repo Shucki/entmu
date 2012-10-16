@@ -42,5 +42,5 @@ public abstract class AbstractFigure implements Figure {
 	 * @return location of the handle
 	 * @see java.awt.Point
 	 */
-	Point getHandleLocation(String ident) { return null; } 
+	public Point getHandleLocation(String ident) { return null; } 
 }

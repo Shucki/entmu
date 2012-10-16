@@ -8,6 +8,10 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import jdraw.figures.handles.EastHandle;
+import jdraw.figures.handles.NorthHandle;
+import jdraw.figures.handles.SouthHandle;
+import jdraw.figures.handles.WestHandle;
 import jdraw.framework.FigureHandle;
 
 public class Oval extends AbstractFigure {
@@ -55,10 +59,10 @@ public class Oval extends AbstractFigure {
 	@Override
 	public List<FigureHandle> getHandles() {
 		ArrayList<FigureHandle> handles = new ArrayList<FigureHandle>();
-		handles.add(new Handle(this, getHandleLocation("LT"), "LT"));
-		handles.add(new Handle(this, getHandleLocation("RT"), "RT"));
-		handles.add(new Handle(this, getHandleLocation("LB"), "LB"));
-		handles.add(new Handle(this, getHandleLocation("RB"), "RB"));
+		handles.add(new NorthHandle(this));
+		handles.add(new EastHandle(this));
+		handles.add(new SouthHandle(this));
+		handles.add(new WestHandle(this));
 		return handles;
 	}
 	
@@ -67,10 +71,10 @@ public class Oval extends AbstractFigure {
 		Rectangle rectangle = oval.getBounds();
 		Point pnt;
 		switch (ident) {
-			case "LT": pnt = new Point(rectangle.x,                   rectangle.y); break;
-			case "RT": pnt = new Point(rectangle.x + rectangle.width, rectangle.y); break;
-			case "LB": pnt = new Point(rectangle.x,                   rectangle.y + rectangle.height); break;
-			case "RB": pnt = new Point(rectangle.x + rectangle.width, rectangle.y + rectangle.height); break;
+			case "N":  pnt = new Point(rectangle.x + (rectangle.width/2), rectangle.y); break;
+			case "S":  pnt = new Point(rectangle.x + (rectangle.width/2), rectangle.y + rectangle.height); break;
+			case "W":  pnt = new Point(rectangle.x,                       rectangle.y + (rectangle.height/2)); break;
+			case "E":  pnt = new Point(rectangle.x + rectangle.width,     rectangle.y + (rectangle.height/2)); break;
 			default: pnt = new Point();
 		}
 		return pnt;

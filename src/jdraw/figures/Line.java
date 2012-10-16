@@ -13,6 +13,9 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import jdraw.figures.handles.Handle;
+import jdraw.figures.handles.LineHandle;
+
 import jdraw.framework.FigureHandle;
 
 /**
@@ -79,8 +82,8 @@ public class Line extends AbstractFigure{
 	@Override
 	public List<FigureHandle> getHandles() {
 		ArrayList<FigureHandle> handles = new ArrayList<FigureHandle>();
-		handles.add(new Handle(this, getHandleLocation("LT"),"LT"));
-		handles.add(new Handle(this, getHandleLocation("RB"),"RB"));
+		handles.add(new LineHandle(this, "pnt1"));
+		handles.add(new LineHandle(this, "pnt2"));
 		return handles;
 	}
 	
@@ -88,8 +91,8 @@ public class Line extends AbstractFigure{
 	public Point getHandleLocation(String ident) {
 		Point pnt;
 		switch (ident) {
-			case "LT": pnt = new Point ((int) line.getX1(), (int) line.getY1()); break;
-			case "RB": pnt = new Point ((int) line.getX2(), (int) line.getY2()); break;
+			case "pnt1": pnt = new Point ((int) line.getX1(), (int) line.getY1()); break;
+			case "pnt2": pnt = new Point ((int) line.getX2(), (int) line.getY2()); break;
 			default: pnt = new Point();
 		}
 		return pnt;

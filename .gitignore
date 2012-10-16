@@ -1,0 +1,12 @@
+
+bin/*
+
+.project
+
+docs/*
+
+lib/*
+
+.classpath
+
+.settings/org.eclipse.core.resources.prefs

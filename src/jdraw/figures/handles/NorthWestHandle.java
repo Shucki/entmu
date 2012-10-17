@@ -7,10 +7,8 @@ import java.awt.event.MouseEvent;
 
 import jdraw.figures.AbstractFigure;
 import jdraw.framework.DrawView;
-import jdraw.framework.FigureHandle;
-import jdraw.framework.FigureListener;
 
-public class NorthWestHandle extends Handle implements FigureHandle, FigureListener {
+public class NorthWestHandle extends AbstractHandle {
 
 	public NorthWestHandle(AbstractFigure figure) {
 		super(figure, "NW");
@@ -26,5 +24,10 @@ public class NorthWestHandle extends Handle implements FigureHandle, FigureListe
 		Rectangle rec = _owner.getBounds();
 		_anchor = new Point(rec.x + rec.width, rec.y + rec.height);
 	}
-
+	
+	@Override
+	public Point getLocation() {
+		Rectangle rectangle = _owner.getBounds();
+		return new Point(rectangle.x, rectangle.y);
+	}
 }

@@ -1,6 +1,5 @@
 package jdraw.figures;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import jdraw.framework.Figure;
@@ -34,13 +33,4 @@ public abstract class AbstractFigure implements Figure {
 			listener.figureChanged(new FigureEvent(this));
 		}
 	}
-	
-	/**
-	 * Returns a location of a specific Handle.
-	 * 
-	 * @param identifyer of the handle
-	 * @return location of the handle
-	 * @see java.awt.Point
-	 */
-	public Point getHandleLocation(String ident) { return null; } 
 }

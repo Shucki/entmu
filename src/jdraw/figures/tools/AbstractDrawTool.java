@@ -1,4 +1,4 @@
-package jdraw.figures;
+package jdraw.figures.tools;
 
 import java.awt.Cursor;
 

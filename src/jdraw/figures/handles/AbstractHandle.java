@@ -14,7 +14,7 @@ import jdraw.framework.FigureEvent;
 import jdraw.framework.FigureHandle;
 import jdraw.framework.FigureListener;
 
-public class Handle implements FigureHandle, FigureListener {
+public abstract class AbstractHandle implements FigureHandle, FigureListener {
 	
 	protected AbstractFigure _owner;
 	protected Point _center;
@@ -22,11 +22,11 @@ public class Handle implements FigureHandle, FigureListener {
 	protected String _ident;
 	protected int SIZE = 5;
 	
-	public Handle(AbstractFigure figure, String ident) {
+	public AbstractHandle(AbstractFigure figure, String ident) {
 		_owner = figure;
-		_center = _owner.getHandleLocation(ident);
+		_center = getLocation();
 		_ident = ident;
-		if (_owner != null) _owner.addFigureListener(this);
+		_owner.addFigureListener(this);
 	}
 	public String getIdent() {
 		return _ident;
@@ -38,14 +38,8 @@ public class Handle implements FigureHandle, FigureListener {
 	}
 
 	@Override
-	public Point getLocation() {
-		return _center;
-	}
-
-	@Override
 	public void draw(Graphics g) {
-		if ("LT".equals(_ident)) g.setColor(Color.RED);
-		else                     g.setColor(Color.WHITE);
+		g.setColor(Color.WHITE);
 		g.fillRect(_center.x - SIZE, _center.y - SIZE, SIZE*2, SIZE*2);
 		g.setColor(Color.BLACK);
 		g.drawRect(_center.x - SIZE, _center.y - SIZE, SIZE*2, SIZE*2);
@@ -80,7 +74,6 @@ public class Handle implements FigureHandle, FigureListener {
 
 	@Override
 	public void figureChanged(FigureEvent e) {
-		_center = _owner.getHandleLocation(_ident);
+		_center = getLocation();
 	}
-
 }

@@ -7,10 +7,8 @@ import java.awt.event.MouseEvent;
 
 import jdraw.figures.AbstractFigure;
 import jdraw.framework.DrawView;
-import jdraw.framework.FigureHandle;
-import jdraw.framework.FigureListener;
 
-public class EastHandle extends Handle implements FigureHandle, FigureListener {
+public class EastHandle extends AbstractHandle {
 
 	public EastHandle(AbstractFigure figure) {
 		super(figure, "E");
@@ -37,5 +35,11 @@ public class EastHandle extends Handle implements FigureHandle, FigureListener {
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
 		Rectangle rec = _owner.getBounds();
 		_owner.setBounds(_anchor, new Point(x, rec.y + rec.height));
+	}
+	
+	@Override
+	public Point getLocation() {
+		Rectangle rectangle = _owner.getBounds();
+		return new Point(rectangle.x + rectangle.width, rectangle.y + (rectangle.height/2));
 	}
 }

@@ -1,7 +1,8 @@
-package jdraw.figures;
+package jdraw.figures.tools;
 
 import java.awt.Point;
 
+import jdraw.figures.Oval;
 import jdraw.framework.DrawContext;
 import jdraw.framework.DrawTool;
 import jdraw.framework.Figure;

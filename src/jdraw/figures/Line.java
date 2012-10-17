@@ -13,7 +13,6 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import jdraw.figures.handles.Handle;
 import jdraw.figures.handles.LineHandle;
 
 import jdraw.framework.FigureHandle;
@@ -27,6 +26,8 @@ import jdraw.framework.FigureHandle;
 public class Line extends AbstractFigure{
 
 	private static final long serialVersionUID = 670248645815961556L;
+	
+	public enum Points {POINT1, POINT2};
 
 	/**
 	 * Use the java.awt.genom.Line2D in order to save/reuse code.
@@ -82,19 +83,8 @@ public class Line extends AbstractFigure{
 	@Override
 	public List<FigureHandle> getHandles() {
 		ArrayList<FigureHandle> handles = new ArrayList<FigureHandle>();
-		handles.add(new LineHandle(this, "pnt1"));
-		handles.add(new LineHandle(this, "pnt2"));
+		handles.add(new LineHandle(this, Points.POINT1));
+		handles.add(new LineHandle(this, Points.POINT2));
 		return handles;
-	}
-	
-	@Override
-	public Point getHandleLocation(String ident) {
-		Point pnt;
-		switch (ident) {
-			case "pnt1": pnt = new Point ((int) line.getX1(), (int) line.getY1()); break;
-			case "pnt2": pnt = new Point ((int) line.getX2(), (int) line.getY2()); break;
-			default: pnt = new Point();
-		}
-		return pnt;
 	}
 }

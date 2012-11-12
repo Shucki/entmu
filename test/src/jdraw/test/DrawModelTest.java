@@ -24,6 +24,8 @@ import org.junit.Test;
 public class DrawModelTest {
 
 	static class TestFigure implements Figure {
+
+		private static final long serialVersionUID = 1L;
 		public void setBounds(Point origin, Point corner) {}
 		public void draw(Graphics g) {}
 		public void move(int dx, int dy) {}
@@ -106,6 +108,11 @@ public class DrawModelTest {
 	@Test
 	public void testAddFigure6(){
 		Figure f = new TestFigure(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void addFigureListener(FigureListener listener) { cnt++; }
 		};
 		m.addFigure(f);
@@ -127,6 +134,10 @@ public class DrawModelTest {
 	@Test
 	public void testRemoveFigure2(){
 		Figure f = new TestFigure(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			public void addFigureListener(FigureListener l) { cnt++; }
 			public void removeFigureListener(FigureListener l) { cnt--; }
 		};
@@ -151,6 +162,10 @@ public class DrawModelTest {
 	@Test
 	public void testRemoveAllFigures2(){
 		class Fig extends TestFigure {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			public void addFigureListener(FigureListener l) { cnt++; }
 			public void removeFigureListener(FigureListener l) { cnt--; }
 		};

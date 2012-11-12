@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import jdraw.figures.GroupFigure;
 import jdraw.figures.tools.LineTool;
 import jdraw.figures.tools.OvalTool;
 import jdraw.figures.tools.RectTool;
@@ -23,6 +24,7 @@ import jdraw.framework.DrawModel;
 import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
+import jdraw.framework.FigureGroup;
 
 /**
  * Standard implementation of interface DrawContext.
@@ -100,13 +102,36 @@ public class StdContext extends AbstractContext {
 		editMenu.add("Paste").setEnabled(false);
 
 		editMenu.addSeparator();
-		JMenuItem group = new JMenuItem("Group");
-		group.setEnabled(false);
+		JMenuItem group = new JMenuItem("Group"); 
 		editMenu.add(group);
+		group.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent ignore) {
+				  List<Figure> selection = getView().getSelection();
+				  if (selection != null && selection.size() >= 2) {
+					  GroupFigure g = new GroupFigure(new LinkedList<Figure>(selection));
+					  DrawModel m = getView().getModel(); 
+					  for (Figure f : selection) m.removeFigure(f);
+					  m.addFigure(g);
+					  getView().addToSelection(g);
+				  }
+			  } 
+		});
 
-		JMenuItem ungroup = new JMenuItem("Ungroup");
-		ungroup.setEnabled(false);
-		editMenu.add(ungroup);
+		JMenuItem ungroup = new JMenuItem("Ungroup"); 
+		editMenu.add(ungroup); 
+		ungroup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ignore) {
+			    for (Figure g : getView().getSelection()){
+			    	if (g instanceof FigureGroup) {
+						getModel().removeFigure(g);
+						for (Figure f : ((FigureGroup)g).getFigureParts()) {
+							getModel().addFigure(f);
+							getView().addToSelection(f);
+						}
+					}
+			    }
+			} 
+		});
 
 		editMenu.addSeparator();
 
@@ -129,10 +154,12 @@ public class StdContext extends AbstractContext {
 		orderMenu.add(backItem);
 		editMenu.add(orderMenu);
 
-		JMenu grid = new JMenu("Grid...");
-		grid.add("Grid 1");
-		grid.add("Grid 2");
-		grid.add("Grid 3");
+		JMenuItem grid = new JMenuItem("Grid");
+		grid.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getView().setConstrainer(new SnapGridDragHandle(getView()));
+			}
+		});
 		editMenu.add(grid);
 		
 		return editMenu;

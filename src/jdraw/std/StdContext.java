@@ -25,6 +25,9 @@ import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureGroup;
+import jdraw.std.action.CopyAction;
+import jdraw.std.action.CutAction;
+import jdraw.std.action.PasteAction;
 
 /**
  * Standard implementation of interface DrawContext.
@@ -39,6 +42,9 @@ public class StdContext extends AbstractContext {
 	 * 
 	 */
 	private static final long serialVersionUID = -5572498940223321980L;
+	
+	
+	public List<Figure> clipboard;
 
 	/**
 	 * Constructs a standard context with a default set of drawing tools.
@@ -97,9 +103,19 @@ public class StdContext extends AbstractContext {
 		});
 
 		editMenu.addSeparator();
-		editMenu.add("Cut").setEnabled(false);
-		editMenu.add("Copy").setEnabled(false);
-		editMenu.add("Paste").setEnabled(false);
+		
+		JMenuItem cutItem = new JMenuItem("Cut");
+		cutItem.addActionListener(new CutAction(this));
+		
+		JMenuItem copyItem = new JMenuItem("Copy");
+		copyItem.addActionListener(new CopyAction(this));
+		
+		JMenuItem pasteItem = new JMenuItem("Paste");
+		pasteItem.addActionListener(new PasteAction(this));
+		
+		editMenu.add(cutItem);
+		editMenu.add(copyItem);
+		editMenu.add(pasteItem);
 
 		editMenu.addSeparator();
 		JMenuItem group = new JMenuItem("Group"); 

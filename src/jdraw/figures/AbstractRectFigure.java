@@ -83,4 +83,11 @@ public abstract class AbstractRectFigure extends AbstractFigure {
 		handles.add(new SouthEastHandle(this));
 		return handles;
 	}
+	
+	@Override
+	public Object clone() {
+		AbstractRectFigure copy = (AbstractRectFigure) super.clone();
+		copy.rectangle = (Rectangle) copy.rectangle.clone();
+		return copy;
+	}
 }

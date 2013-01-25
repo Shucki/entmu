@@ -65,5 +65,13 @@ public class GroupFigure extends AbstractFigure implements FigureGroup {
 	public Iterable<Figure> getFigureParts() {
 		return Collections.unmodifiableList(parts);
 	}
+	
+	@Override
+	public Object clone() {
+		GroupFigure copy = (GroupFigure) super.clone();
+		copy.parts = new LinkedList<Figure>();
+		for (Figure f : parts) copy.parts.add((Figure) f.clone());
+		return copy;
+	}
 
 }

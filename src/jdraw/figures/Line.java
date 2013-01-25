@@ -16,6 +16,7 @@ import java.util.List;
 import jdraw.figures.handles.LineHandle;
 
 import jdraw.framework.FigureHandle;
+import jdraw.framework.FigureListener;
 
 /**
  * Represents lines in JDraw.
@@ -86,5 +87,12 @@ public class Line extends AbstractFigure{
 		handles.add(new LineHandle(this, Points.POINT1));
 		handles.add(new LineHandle(this, Points.POINT2));
 		return handles;
+	}
+	
+	@Override
+	public Object clone() {
+		Line copy = (Line) super.clone();
+		copy.line = (Line2D) copy.line.clone();
+		return copy;
 	}
 }

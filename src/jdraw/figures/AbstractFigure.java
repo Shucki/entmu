@@ -14,7 +14,13 @@ public abstract class AbstractFigure implements Figure {
 	
 	@Override
 	public Object clone() {
-		return null;
+		try {
+			AbstractFigure copy = (AbstractFigure) super.clone();
+			copy._figureListenerList = new ArrayList<FigureListener>();
+			return copy;
+		} catch (CloneNotSupportedException e) {
+			throw new InternalError();
+		}
 	}
 	
 	@Override

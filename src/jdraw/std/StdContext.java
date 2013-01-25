@@ -7,6 +7,10 @@ package jdraw.std;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -277,7 +281,8 @@ public class StdContext extends AbstractContext {
 				.getFile());
 		chooser.setDialogTitle("Open Graphic");
 		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		chooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+		
+		FileFilter filter = new FileFilter() {
 			@Override
 			public String getDescription() {
 				return "JDraw Graphic (*.draw)";
@@ -287,13 +292,26 @@ public class StdContext extends AbstractContext {
 			public boolean accept(File f) {
 				return f.isDirectory() || f.getName().endsWith(".draw");
 			}
-		});
+		};
+		
+		chooser.setFileFilter(filter);
 		int res = chooser.showOpenDialog(this);
 
 		if (res == JFileChooser.APPROVE_OPTION) {
-			// read jdraw graphic
-			System.out.println("read file "
-					+ chooser.getSelectedFile().getName());
+			try {
+				ObjectInputStream ois = new ObjectInputStream( new FileInputStream(chooser.getSelectedFile()));
+				DrawModel m = getModel();
+				m.removeAllFigures();
+				while (true) {
+					try {
+						Object x = ois.readObject(); 
+						if(x == null) { break; } 
+						m.addFigure((Figure) x);
+					} catch (ClassNotFoundException e) { System.out.println("Figure not found, "+e.getMessage()); }
+				}
+				ois.close();
+			} catch(Exception e) { e.printStackTrace(); }
+
 		}
 	}
 
@@ -321,11 +339,16 @@ public class StdContext extends AbstractContext {
 
 		if (res == JFileChooser.APPROVE_OPTION) {
 			// save graphic
-			File file = chooser.getSelectedFile();
-			if (chooser.getFileFilter() == filter && !filter.accept(file)) {
-				file = new File(chooser.getCurrentDirectory(), file.getName() + ".draw");
-			}
-			System.out.println("save current graphic to file " + file.getName());
+			try {
+				File file = chooser.getSelectedFile();
+				if (chooser.getFileFilter() == filter && !filter.accept(file)) {
+					file = new File(chooser.getCurrentDirectory() + file.getName() + ".draw");
+					ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(file) );
+					for (Figure f : getModel().getFigures()) oos.writeObject(f.clone());
+					oos.writeObject(null);
+					oos.close();
+				}
+			} catch(Exception e) { e.printStackTrace(); }
 		}
 	}
 

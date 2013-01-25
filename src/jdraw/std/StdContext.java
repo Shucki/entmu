@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import jdraw.figures.BorderDecorator;
 import jdraw.figures.GroupFigure;
 import jdraw.figures.tools.LineTool;
 import jdraw.figures.tools.OvalTool;
@@ -181,6 +182,23 @@ public class StdContext extends AbstractContext {
 			}
 		});
 		editMenu.add(grid);
+		
+		JMenuItem borderDecorator = new JMenuItem("Add Border Decorator"); 
+		borderDecorator.addActionListener(
+			    new ActionListener() {
+			      public void actionPerformed(ActionEvent e) {
+			        List<Figure> s = getView().getSelection(); 
+			        getView().clearSelection();
+			        for (Figure f : s) {
+			        	BorderDecorator dec = new BorderDecorator(f); 
+			        	getModel().removeFigure(f); 
+			        	getModel().addFigure(dec); 
+			        	getView().addToSelection(dec);
+			}
+			        getView().repaint();
+			      }
+			});
+		editMenu.add(borderDecorator);
 		
 		return editMenu;
 	}
